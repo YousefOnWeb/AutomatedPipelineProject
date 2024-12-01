@@ -1,0 +1,13 @@
+# prometheus.yml
+
+global:
+  scrape_interval: 15s  # Defines how often Prometheus scrapes metrics (every 15 seconds)
+
+scrape_configs:
+  - job_name: 'flask_app'
+    static_configs:
+      - targets: ['localhost:5000']  # Flask app running on port 5000
+
+  - job_name: 'node_exporter'
+    static_configs:
+      - targets: ['localhost:9100']  # Node Exporter for server metrics (CPU, memory, disk, etc.)

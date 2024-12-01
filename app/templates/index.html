@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Welcome to the Automated Pipeline Project</h2>
+<p>Please enter some text below to demonstrate the app's functionality:</p>
+<form action="/process" method="post">
+    <input type="text" name="input_text" placeholder="Enter text here...">
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}

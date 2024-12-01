@@ -1,0 +1,40 @@
+{
+    "dashboard": {
+      "id": null,
+      "uid": "cpu_memory_dashboard",
+      "title": "CPU and Memory Usage",
+      "tags": ["prometheus", "cpu", "memory"],
+      "timezone": "browser",
+      "panels": [
+        {
+          "type": "graph",
+          "title": "CPU Usage",
+          "targets": [
+            {
+              "expr": "rate(cpu_seconds_total{mode='idle'}[1m])",
+              "legendFormat": "{{cpu}}",
+              "interval": ""
+            }
+          ],
+          "xaxis": {
+            "mode": "time"
+          }
+        },
+        {
+          "type": "graph",
+          "title": "Memory Usage",
+          "targets": [
+            {
+              "expr": "node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100",
+              "legendFormat": "Memory Usage",
+              "interval": ""
+            }
+          ],
+          "xaxis": {
+            "mode": "time"
+          }
+        }
+      ]
+    }
+  }
+  

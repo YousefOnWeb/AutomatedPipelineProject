@@ -1,0 +1,70 @@
+pipeline {
+    agent any
+
+    environment {
+        // Environment variables, for example, the location of your test server, etc.
+        FLASK_APP = 'app/app.py'
+        DEPLOY_DIR = '/var/www/your-app-directory'
+        TEST_RESULT = 'test_results.log'
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                // Checkout the code from your Git repository
+                git url: 'git@github.com:your-username/AutomatedPipelineProject.git', branch: 'main'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                // Run both unit and Selenium tests using the run_tests.sh script
+                script {
+                    sh './ci_cd/scripts/run_tests.sh'
+                }
+            }
+        }
+
+        stage('Build App') {
+            steps {
+                // Build the app using the build.sh script
+                script {
+                    sh './ci_cd/scripts/build.sh'
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                // Deploy the app locally using deploy.sh script
+                script {
+                    sh './deployment/deploy.sh'
+                }
+            }
+        }
+
+        stage('Clean Up') {
+            steps {
+                // Clean up the environment after the job is complete
+                echo "Pipeline finished successfully!"
+            }
+        }
+    }
+
+    post {
+        always {
+            // Archive test results if needed
+            archiveArtifacts artifacts: '**/test_results.log', allowEmptyArchive: true
+        }
+
+        success {
+            // Send success notification (e.g., email, Slack)
+            echo "Deployment completed successfully!"
+        }
+
+        failure {
+            // Send failure notification
+            echo "Pipeline failed!"
+        }
+    }
+}
